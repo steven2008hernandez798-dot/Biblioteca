@@ -7,7 +7,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class VentanaPrincipal extends JFrame {
+    //instancia de la logica del negocio
     private Biblioteca biblioteca = new Biblioteca();
+    //componentes de la interfaz de usuario
     private JTextField txtIsbn = new JTextField(), txtTitulo = new JTextField(),
             txtAutor = new JTextField(), txtAnio = new JTextField(),
             txtCopias = new JTextField(), txtBuscar = new JTextField(10);
@@ -16,10 +18,11 @@ public class VentanaPrincipal extends JFrame {
     private JTable tabla = new JTable(modeloTabla);
 
     public VentanaPrincipal() {
-        setTitle("Biblioteca San Rafael");
+        setTitle("Biblioteca del SENA");
         setSize(750, 450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        // construccion del formulario de entrada
 
         JPanel pnlForm = new JPanel(new GridLayout(4, 4, 5, 5));
         pnlForm.add(new JLabel("ISBN:")); pnlForm.add(txtIsbn);
@@ -33,8 +36,10 @@ public class VentanaPrincipal extends JFrame {
         btnGuardar.addActionListener(e -> guardar());
         pnlForm.add(btnGuardar);
         add(pnlForm, BorderLayout.NORTH);
+        // area central con la tabla de datos
 
         add(new JScrollPane(tabla), BorderLayout.CENTER);
+        // panel inferiorpara acciones y busqueda
 
         JPanel pnlInf = new JPanel();
         JButton btnBuscar = new JButton("Filtrar Autor"), btnTodos = new JButton("Ver Todos"), btnEliminar = new JButton("Eliminar");
@@ -45,6 +50,7 @@ public class VentanaPrincipal extends JFrame {
         pnlInf.add(new JLabel("Autor:")); pnlInf.add(txtBuscar);
         pnlInf.add(btnBuscar); pnlInf.add(btnTodos); pnlInf.add(btnEliminar);
         add(pnlInf, BorderLayout.SOUTH);
+        // captura los datos del formularioy registra un nuevo libro
     }
 
     private void guardar() {
@@ -58,10 +64,11 @@ public class VentanaPrincipal extends JFrame {
             JOptionPane.showMessageDialog(this, "Revisa los campos numéricos.");
         }
     }
+    //confirma y elimina el libro seleccionado de la tabla
 
     private void eliminar() {
         int fila = tabla.getSelectedRow();
-        if (fila >= 0 && JOptionPane.showConfirmDialog(this, "¿Eliminar?") == 0) {
+        if (fila >= 0 && JOptionPane.showConfirmDialog(this, "¿ Deseas eliminar el libro?") == 0) {
             biblioteca.eliminarLibro((String) modeloTabla.getValueAt(fila, 0));
             cargarTabla(biblioteca.obtenerTodos());
         }
